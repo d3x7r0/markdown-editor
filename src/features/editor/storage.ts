@@ -9,9 +9,7 @@ const DEBOUNCE_TIME = 180
 startAppListening({
   actionCreator: updateText,
   effect: async (_, listenerApi) => {
-    const { getState, cancelActiveListeners, delay } = listenerApi
-
-    const status = getState().editor.status
+    const status = listenerApi.getState().editor.status
 
     // Do nothing until ready
     if (status !== 'ready') {
@@ -19,13 +17,13 @@ startAppListening({
     }
 
     // Cancel any in-progress instances of this listener
-    cancelActiveListeners()
+    listenerApi.cancelActiveListeners()
 
     // Delay to debounce saves
-    await delay(DEBOUNCE_TIME)
+    await listenerApi.delay(DEBOUNCE_TIME)
 
     // Save data
-    const value = getState().editor.value
+    const value = listenerApi.getState().editor.value
 
     try {
       localStorage.setItem(
@@ -41,9 +39,7 @@ startAppListening({
 // Setup initial state by loading from storage
 startAppListening({
   actionCreator: updateStatus,
-  effect: async (action, listenerApi) => {
-    const { dispatch } = listenerApi
-
+  effect: (action, listenerApi) => {
     // Only run when changing to the `initializing` state
     if (action.payload !== 'initializing') {
       return
@@ -57,18 +53,18 @@ startAppListening({
         return
       }
 
-      const parsed = JSON.parse(raw)
+      const parsed: unknown = JSON.parse(raw)
       if (!parsed) {
         return
       }
 
-      dispatch(
-        updateText(parsed),
+      listenerApi.dispatch(
+        updateText(parsed as string),
       )
     } catch (err) {
       // TODO: handle error
     } finally {
-      dispatch(
+      listenerApi.dispatch(
         updateStatus('ready'),
       )
     }
