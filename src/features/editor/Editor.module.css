@@ -1,0 +1,10 @@
+.editor {
+    border: 1px solid #ccc;
+    font-family: monospace;
+    height: 25em;
+    min-height: 3em;
+    overflow: auto;
+    resize: vertical;
+    white-space: pre;
+    width: 100%;
+}

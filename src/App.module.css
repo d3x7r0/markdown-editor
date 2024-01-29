@@ -1,0 +1,17 @@
+.container {
+    margin: 0 auto;
+    max-width: 1440px;
+    padding: 4px;
+
+    @media screen and (min-width: 1024px) {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-column-gap: 8px;
+    }
+}
+
+.page-title {
+    @media screen and (min-width: 1024px) {
+        grid-column: 1 / span 2;
+    }
+}
