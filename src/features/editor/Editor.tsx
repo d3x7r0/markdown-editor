@@ -14,6 +14,7 @@ export type EditorProps = {
 }
 
 const Editor: FunctionComponent<EditorProps> = (props) => {
+  const ready = useAppSelector((state: RootState) => state.editor.status === 'ready')
   const value = useAppSelector((state: RootState) => state.editor.value)
   const dispatch = useAppDispatch()
 
@@ -24,6 +25,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
 
   return (
     <textarea
+      disabled={!ready}
       value={value}
       onChange={onChange}
       className={clsx(styles.editor, props.className)}

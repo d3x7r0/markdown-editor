@@ -12,13 +12,16 @@ export type PreviewProps = {
 }
 
 const Preview: FunctionComponent<PreviewProps> = (props) => {
+  const ready = useAppSelector((state: RootState) => state.editor.status === 'ready')
   const value = useAppSelector((state: RootState) => state.editor.value)
 
   return (
     <div className={clsx(styles.preview, props.className)}>
-      <Markdown>
-        {value}
-      </Markdown>
+      {ready ? (
+        <Markdown>
+          {value}
+        </Markdown>
+      ) : null}
     </div>
   )
 }

@@ -1,10 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
+
 import editorReducer from '../features/editor/editorSlice.ts'
+
+import { listenerMiddleware } from './listenerMiddleware.ts'
 
 export const store = configureStore({
   reducer: {
-    editor: editorReducer
+    editor: editorReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
